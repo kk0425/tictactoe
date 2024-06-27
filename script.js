@@ -1,66 +1,61 @@
-let emptyGameboard = [
-  [undefined, undefined, undefined],
-  [undefined, undefined, undefined],
-  [undefined, undefined, undefined],
-];
+const gameboard = (function () { 
+    const gameTiles = [
+        [undefined, undefined, undefined],
+        [undefined, undefined, undefined],
+        [undefined, undefined, undefined],
+    ];
 
-const xWinsByRowGameboard = [
-  [undefined, undefined, undefined],
-  [undefined, undefined, undefined],
-  ["x", "x", "x"],
-];
+    const checkForPlayerWin = (() => {
+        for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
+          if (
+            gameTiles[rowIndex][0] &&
+            gameTiles[rowIndex][0] === gameTiles[rowIndex][1] &&
+            gameTiles[rowIndex][1] === gameTiles[rowIndex][2]
+          ) {
+            return gameTiles[rowIndex][0];
+          }
+        }
+      
+        for (let columnIndex = 0; columnIndex < 3; columnIndex++) {
+          if (
+            gameTiles[0][columnIndex] &&
+            gameTiles[0][columnIndex] === gameTiles[1][columnIndex] &&
+            gameTiles[1][columnIndex] === gameTiles[2][columnIndex]
+          ) {
+            return gameTiles[0][columnIndex];
+          }
+        }
+      
+        if (
+          gameTiles[1][1] &&
+          ((gameTiles[0][0] === gameTiles[1][1] &&
+            gameTiles[1][1] === gameTiles[2][2]) ||
+            (gameTiles[2][0] === gameTiles[1][1] &&
+              gameTiles[1][1] === gameTiles[0][2]))
+        ) {
+          return gameTiles[1][1];
+        }
+      })();
 
-const xWinsByColumnGameboard = [
-  ["x", undefined, undefined],
-  ["x", undefined, undefined],
-  ["x", undefined, undefined],
-];
+      function renderGameboard() {
+        const gameboardContainer = document.querySelector("#gameboard-container");
+        for (let tileRow = 0; tileRow < 3; tileRow++) {
+            for (let tileColumn = 0; tileColumn < 3; tileColumn++) {
+                const tileContainer = document.createElement("div");
+                tileContainer.classList.add("gameboard-tile");
+                gameboardContainer.appendChild(tileContainer);
+            }
 
-const xWinsByDiagonalGameboard1 = [
-  ["x", undefined, undefined],
-  [undefined, "x", undefined],
-  [undefined, undefined, "x"],
-];
-const xWinsByDiagonalGameboard2 = [
-  [undefined, undefined, "x"],
-  [undefined, "x", undefined],
-  ["x", undefined, undefined],
-];
+            // TODO make tile change to player marker and update list when clicked
+            
+        }
+      };
+      renderGameboard();
 
-function checkWin(gameboard) {
-  for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
-    if (
-      gameboard[rowIndex][0] &&
-      gameboard[rowIndex][0] === gameboard[rowIndex][1] &&
-      gameboard[rowIndex][1] === gameboard[rowIndex][2]
-    ) {
-      return gameboard[rowIndex][0];
-    }
-  }
+    return {
+        gameTiles,
+        checkForPlayerWin
+    };
+})();
 
-  for (let columnIndex = 0; columnIndex < 3; columnIndex++) {
-    if (
-      gameboard[0][columnIndex] &&
-      gameboard[0][columnIndex] === gameboard[1][columnIndex] &&
-      gameboard[1][columnIndex] === gameboard[2][columnIndex]
-    ) {
-      return gameboard[0][columnIndex];
-    }
-  }
-
-  if (
-    gameboard[1][1] &&
-    ((gameboard[0][0] === gameboard[1][1] &&
-      gameboard[1][1] === gameboard[2][2]) ||
-      (gameboard[2][0] === gameboard[1][1] &&
-        gameboard[1][1] === gameboard[0][2]))
-  ) {
-    return gameboard[1][1];
-  }
-}
-
-console.log("emptyGameboard", checkWin(emptyGameboard));
-console.log("xWinsByRowGameboard", checkWin(xWinsByRowGameboard));
-console.log("xWinsByColumnGameboard", checkWin(xWinsByColumnGameboard));
-console.log("xWinsByDiagonalGameboard1", checkWin(xWinsByDiagonalGameboard1));
-console.log("xWinsByDiagonalGameboard2", checkWin(xWinsByDiagonalGameboard2));
+console.log("Gameboard", gameboard.checkForPlayerWin);

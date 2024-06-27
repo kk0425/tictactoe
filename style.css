@@ -1,0 +1,15 @@
+#gameboard-container {
+    display: grid;
+    grid-template-columns: 120px 120px 120px;
+    grid-template-rows: 120px 120px 120px 20px;
+    column-gap: 2px;
+    row-gap: 2px;
+    justify-content: center;
+}
+
+.gameboard-tile {
+    background-color: #d9d9d9;
+    border: 2px solid black;
+    align-content: center;
+    text-align: center;
+}
