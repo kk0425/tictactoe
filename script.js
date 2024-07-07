@@ -5,7 +5,7 @@ const gameboard = (function () {
     [undefined, undefined, undefined],
   ];
 
-  const checkForPlayerWin = (() => {
+  function checkForPlayerWin() {
     for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
       if (
         gameTiles[rowIndex][0] &&
@@ -35,7 +35,7 @@ const gameboard = (function () {
     ) {
       return gameTiles[1][1];
     }
-  })();
+  };
 
   let playerMarker = "x";
   function renderGameboard() {
@@ -50,17 +50,18 @@ const gameboard = (function () {
             "click",
             () => {
               let classToAdd;
+              tileContainer.textContent = playerMarker.toUpperCase();
+              gameTiles[tileRow][tileColumn] = playerMarker;
               if (playerMarker === "x") {
-                tileContainer.textContent = playerMarker.toUpperCase();
                 playerMarker = "o";
                 classToAdd = "player-x-marker";
               } else {
-                tileContainer.textContent = playerMarker.toUpperCase();
                 playerMarker = "x";
                 classToAdd = "player-o-marker";
               };
+              console.log(gameTiles);
               tileContainer.classList.add(classToAdd);
-              gameTiles[tileRow][tileColumn] = playerMarker;
+              console.log(checkForPlayerWin());
             },
             { once: true }
           );
