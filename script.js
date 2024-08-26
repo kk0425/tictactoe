@@ -1,4 +1,4 @@
-const gameboard = (function () {
+const gameboard = (function() {
   const gameTiles = [
     [undefined, undefined, undefined],
     [undefined, undefined, undefined],
@@ -15,7 +15,7 @@ const gameboard = (function () {
         return gameTiles[rowIndex][0];
       }
     }
-
+    
     for (let columnIndex = 0; columnIndex < 3; columnIndex++) {
       if (
         gameTiles[0][columnIndex] &&
@@ -59,9 +59,39 @@ const gameboard = (function () {
                 playerMarker = "x";
                 classToAdd = "player-o-marker";
               };
-              console.log(gameTiles);
               tileContainer.classList.add(classToAdd);
-              console.log(checkForPlayerWin());
+
+              function gameHeader() {
+                const player1Name = document.querySelector("#player1-name");
+                const player2Name = document.querySelector("#player2-name");
+                let playerXScore = document.querySelector("#player1-value");
+                let playerOScore = document.querySelector("#player2-value");
+                const gameOverModal = document.querySelector('#gameover-modal');
+                const newGameButton = document.querySelector('#gameover-modal button');
+
+                function gameEnd() {
+                  gameOverModal.showModal();
+                  newGameButton.addEventListener("click", () => {
+                    gameOverModal.close();
+                    gameTiles.forEach((row, rowIndex) => {
+                      row.forEach((_, tileIndex) => {
+                        gameTiles[rowIndex][tileIndex] = undefined;
+                      });
+                    });
+                  });
+                }
+          
+                if (checkForPlayerWin() === "x") {
+                  //console.log(player1Name.textContent, "Wins");
+                  playerXScore.textContent = Number(playerXScore.textContent) + 1;
+                  gameEnd();
+                } else if (checkForPlayerWin() === "o") {
+                  //console.log(player2Name.textContent, "Wins");
+                  playerOScore.textContent = Number(playerOScore.textContent) + 1;
+                  gameEnd();
+                }
+              }
+              gameHeader();
             },
             { once: true }
           );
@@ -71,10 +101,4 @@ const gameboard = (function () {
     }
   }
   renderGameboard();
-
-  return {
-    checkForPlayerWin,
-  };
 })();
-
-console.log("Gameboard Win", gameboard.checkForPlayerWin);
