@@ -64,13 +64,15 @@ const gameboard = (function() {
               function gameHeader() {
                 const player1Name = document.querySelector("#player1-name");
                 const player2Name = document.querySelector("#player2-name");
-                let playerXScore = document.querySelector("#player1-value");
-                let playerOScore = document.querySelector("#player2-value");
+                let player1Score = document.querySelector("#player1-value");
+                let player2Score = document.querySelector("#player2-value");
                 const gameOverModal = document.querySelector('#gameover-modal');
                 const newGameButton = document.querySelector('#gameover-modal button');
 
-                function gameEnd() {
+                function gameEnd(playerName, playerScore) {
                   gameOverModal.showModal();
+                  playerScore.textContent = Number(playerScore.textContent) + 1;
+                  gameOverModal.querySelector('div').textContent = playerName.textContent + " Wins!";
                   newGameButton.addEventListener("click", () => {
                     gameOverModal.close();
                     gameTiles.forEach((row, rowIndex) => {
@@ -78,17 +80,15 @@ const gameboard = (function() {
                         gameTiles[rowIndex][tileIndex] = undefined;
                       });
                     });
+                    gameboardContainer.textContent = "";
+                    renderGameboard();
                   });
                 }
           
                 if (checkForPlayerWin() === "x") {
-                  //console.log(player1Name.textContent, "Wins");
-                  playerXScore.textContent = Number(playerXScore.textContent) + 1;
-                  gameEnd();
+                  gameEnd(player1Name, player1Score);
                 } else if (checkForPlayerWin() === "o") {
-                  //console.log(player2Name.textContent, "Wins");
-                  playerOScore.textContent = Number(playerOScore.textContent) + 1;
-                  gameEnd();
+                  gameEnd(player2Name, player2Score);
                 }
               }
               gameHeader();
