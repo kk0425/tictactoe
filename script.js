@@ -62,8 +62,8 @@ const gameboard = (function() {
               tileContainer.classList.add(classToAdd);
 
               function gameHeader() {
-                const player1Name = document.querySelector("#player1-name");
-                const player2Name = document.querySelector("#player2-name");
+                const player1Name = document.querySelector("#player1-name input");
+                const player2Name = document.querySelector("#player2-name input");
                 let player1Score = document.querySelector("#player1-value");
                 let player2Score = document.querySelector("#player2-value");
                 const gameOverModal = document.querySelector('#gameover-modal');
@@ -72,7 +72,7 @@ const gameboard = (function() {
                 function gameEnd(playerName, playerScore) {
                   gameOverModal.showModal();
                   playerScore.textContent = Number(playerScore.textContent) + 1;
-                  gameOverModal.querySelector('div').textContent = playerName.textContent + " Wins!";
+                  gameOverModal.querySelector('div').textContent = playerName.value + " Wins!";
                   newGameButton.addEventListener("click", () => {
                     gameOverModal.close();
                     gameTiles.forEach((row, rowIndex) => {
